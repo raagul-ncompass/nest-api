@@ -33,4 +33,6 @@ export class UserOrderDto {
   Gender:string;
   @Expose()
   Customer_ID:string;
+  @Expose()
+  result:any;
 }

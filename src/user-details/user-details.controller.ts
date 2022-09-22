@@ -28,12 +28,18 @@ export class UserDetailsController {
     @Post('/signup')
     async signupUser(@Body() body:CreateUserDto) {
         const result = await this.AuthService.signUp(body);
-        return result;
+        return({
+            message:"operation success",
+            result:result
+        });
     }
     @Put("/update/userdata/:id")
     async updateUser(@Body() body,@Param() {id}) {
         const result = await this.userdetailService.updateUser(id,body);
-        return result;
+        return ({
+            message:"operation success",
+            result:result
+        });
     }
     @UseGuards(AuthGuard)
     @UseFilters(new HttpExceptionFilter())
@@ -43,7 +49,10 @@ export class UserDetailsController {
     }
     @Delete("/delete/userdata/:id")
     deleteUserData(@Param() {id}){
-        return this.userdetailService.deleteUserData(id);
+        return ({
+            message:"operator success",
+            result: this.userdetailService.deleteUserData(id)
+        });
     }
     @Get("/alluserdata")
     getAllUserData(){
