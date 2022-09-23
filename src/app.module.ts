@@ -10,7 +10,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { DeliveryDateModule } from './delivery-date/delivery-date.module';
 import { FreqAskQuesModule } from './freq-ask-ques/freq-ask-ques.module';
 import { WarrantyReturnModule } from './warranty-return/warranty-return.module';
-import * as redisStore from 'cache-manager-redis-store';
 
 
 @Module({
@@ -37,7 +36,6 @@ import * as redisStore from 'cache-manager-redis-store';
         }
       }),
     CacheModule.register({
-      store:redisStore,
       isGlobal: true,
       ttl:30
     }),

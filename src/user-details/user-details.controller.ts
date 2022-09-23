@@ -25,6 +25,7 @@ export class UserDetailsController {
         this.logger.log("fetching current user...");
         return result;
     }
+    @UseFilters(new HttpExceptionFilter())
     @Post('/signup')
     async signupUser(@Body() body:CreateUserDto) {
         const result = await this.AuthService.signUp(body);

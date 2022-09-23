@@ -30,7 +30,7 @@ export class AuthService {
 
       if (users)
       {
-          throw new BadRequestException("Username aready in use")
+          return("Username aready in use")
       }
       const result = md5(params.Password)
       params.Password=result
