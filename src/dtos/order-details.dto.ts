@@ -35,4 +35,6 @@ export class UserOrderDto {
   Customer_ID:string;
   @Expose()
   result:any;
+  @Expose()
+  age:number;
 }
