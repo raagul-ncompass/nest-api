@@ -26,6 +26,8 @@ export class User {
     Password:string;
     @Column()
     location:string;
+    @Column()
+    age:number;
     
     @AfterInsert()
     logInsert() {
