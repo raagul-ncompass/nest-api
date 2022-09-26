@@ -15,4 +15,7 @@ export class UserDto {
 
   @Expose()
   Address:string;
+
+  @Expose()
+  age:number;
 }
