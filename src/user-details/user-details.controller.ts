@@ -30,6 +30,7 @@ export class UserDetailsController {
     async signupUser(@Body() body:CreateUserDto) {
         const result = await this.AuthService.signUp(body);
         return({
+            flage:true,
             message:"operation success",
             result:result
         });
@@ -38,6 +39,7 @@ export class UserDetailsController {
     async updateUser(@Body() body,@Param() {id}) {
         const result = await this.userdetailService.updateUser(id,body);
         return ({
+            flage:true,
             message:"operation success",
             result:result
         });
@@ -51,6 +53,7 @@ export class UserDetailsController {
     @Delete("/delete/userdata/:id")
     deleteUserData(@Param() {id}){
         return ({
+            flage:true,
             message:"operator success",
             result: this.userdetailService.deleteUserData(id)
         });
