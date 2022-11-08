@@ -13,7 +13,8 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
-      - echo 'SECRET=secret PORT=3306 HOST=raagul-usecase.ctqnawjozhfg.ap-southeast-2.rds.amazonaws.com USER=raagul PASSWORD=raagul DB=usecase_product_raagul' >> .env  
+      - echo $'SECRET=secret PORT=3306 \n HOST=raagul-usecase.ctqnawjozhfg.ap-southeast-2.rds.amazonaws.com \n USER=raagul \n PASSWORD=raagul \n DB=usecase_product_raagul' >> .env  
+      - cat .env 
       - docker build -t $REPOSITORY_URI:latest .
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
   post_build:
