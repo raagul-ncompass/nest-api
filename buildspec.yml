@@ -4,28 +4,22 @@ phases:
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
-      - aws --version
-      - aws ecr get-login-password --region ap-southeast-2 | docker login --username AWS --password-stdin 368355641188.dkr.ecr.ap-southeast-2.amazonaws.com
-      - REPOSITORY_URI=368355641188.dkr.ecr.ap-southeast-2.amazonaws.com/dart-raagul-nestapi
-      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
-      - IMAGE_TAG=${COMMIT_HASH:=latest}
+      - aws ecr get-login-password --region ap-southeast-2 
+
   build:
     commands:
-      - echo Build started on `date`
       - echo Building the Docker image...
-      - echo $'SECRET=secret PORT=3306 \nHOST=raagul-usecase.ctqnawjozhfg.ap-southeast-2.rds.amazonaws.com \nUSER=raagul \nPASSWORD=raagul \nDB=usecase_product_raagul' >> .env  
+      - echo $'SECRET={SECRET} PORT={PORT} \nHOST={HOST} \nUSER={USER} \nPASSWORD={PASSWORD} \nDB={DB}' >> .env  
       - cat .env 
       - docker build -t $REPOSITORY_URI:latest .
-      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
 
   post_build:
     commands:
-      - echo Build completed on `date`
+      - echo Build completed..........
       - echo Pushing the Docker images...
       - docker push $REPOSITORY_URI:latest
-      - docker push $REPOSITORY_URI:$IMAGE_TAG
       - echo Writing image definitions file...
-      - printf '[{"name":"nest-api-container","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+      - printf '[{"name":"%s","imageUri":"%s"}]' $CONTAINER_NAME $REPOSITORY_URI:latest > imagedefinitions.json
       
 artifacts:
     files: imagedefinitions.json
