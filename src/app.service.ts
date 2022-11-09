@@ -8,7 +8,7 @@ export class AppService {
     const value:string = await this.CacheManager.get('hello');
     if(!value){
       await this.CacheManager.set('hello','HELLO This is from cache');
-      return 'HELLO THIS IS NOT CACHED!!!';
+      return 'HELLO THIS IS NOT CACHED!!!   qwee';
     }
     return value;
   }
