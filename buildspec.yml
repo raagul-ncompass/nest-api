@@ -1,25 +1,28 @@
 version: 0.2
+env:
+  variables:
+    PORT: "PORT"
 
 phases:
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
-      - aws ecr get-login-password --region ap-southeast-2 
+      - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
 
   build:
     commands:
       - echo Building the Docker image...
-      - echo $'SECRET=$SECRET PORT=$PORT \nHOST=$HOST \nUSER=$USER \nPASSWORD=$PASSWORD \nDB=$DB' >> .env  
+      - echo 'SECRET=$SECRET \nPORT=$PORT \nHOST=$HOST \nUSER=$USER \nPASSWORD=$PASSWORD \nDB=$DB' >> .env  
       - cat .env 
-      - docker build -t $REPOSITORY_URI:latest .
+      - docker build -t $REPOSITORY_URI:$IMAGE_TAG .
 
   post_build:
     commands:
       - echo Build completed..........
       - echo Pushing the Docker images...
-      - docker push $REPOSITORY_URI:latest
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
       - echo Writing image definitions file...
-      - printf '[{"name":"%s","imageUri":"%s"}]' $CONTAINER_NAME $REPOSITORY_URI:latest > imagedefinitions.json
+      - printf '[{"name":"%s","imageUri":"%s"}]' $CONTAINER_NAME $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
       
 artifacts:
     files: imagedefinitions.json
